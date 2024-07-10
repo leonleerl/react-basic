@@ -3,6 +3,7 @@ import "./App.scss";
 import avatar from "./images/bozai.png";
 import _ from "lodash";
 import classNames from "classnames";
+import Test from "./test";
 
 /**
  * 评论列表的渲染和操作
@@ -77,9 +78,24 @@ const tabs = [
 ];
 
 const App = () => {
+  // 评论列表
   const [commentList, setCommentList] = useState(
     _.orderBy(defaultList, "like", "desc")
   );
+
+  const [commentMsg, setCommentMsg] = useState("");
+  const handleAddContent = () => {
+    console.log(commentMsg);
+    const newComment = {
+      rpid: commentList.length + 1,
+      user: user,
+      content: commentMsg,
+      ctime: new Date().toLocaleDateString(),
+      like: 0,
+    };
+    setCommentList([...commentList, newComment]);
+    setCommentMsg("");
+  };
 
   // 删除
   const handleDel = (id) => {
@@ -142,9 +158,13 @@ const App = () => {
             <textarea
               className="reply-box-textarea"
               placeholder="发一条友善的评论"
+              value={commentMsg}
+              onChange={(e) => {
+                setCommentMsg(e.target.value);
+              }}
             />
             {/* 发布按钮 */}
-            <div className="reply-box-send">
+            <div onClick={handleAddContent} className="reply-box-send">
               <div className="send-text">发布</div>
             </div>
           </div>
@@ -194,6 +214,7 @@ const App = () => {
           ))}
         </div>
       </div>
+      <Test />
     </div>
   );
 };
