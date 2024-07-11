@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.scss";
 import avatar from "./images/bozai.png";
 import _ from "lodash";
 import classNames from "classnames";
 import Test from "./test";
+import { v4 as uuidV4 } from "uuid";
+import dayjs from "dayjs";
+import TestProps from "./testProps";
 
 /**
  * 评论列表的渲染和操作
@@ -83,18 +86,22 @@ const App = () => {
     _.orderBy(defaultList, "like", "desc")
   );
 
+  // 发布
   const [commentMsg, setCommentMsg] = useState("");
+  const inputRef = useRef(null);
   const handleAddContent = () => {
     console.log(commentMsg);
     const newComment = {
-      rpid: commentList.length + 1,
+      rpid: uuidV4(),
       user: user,
       content: commentMsg,
-      ctime: new Date().toLocaleDateString(),
+      ctime: dayjs(new Date()).format("MM-DD hh:mm"),
       like: 0,
     };
     setCommentList([...commentList, newComment]);
     setCommentMsg("");
+    console.log(inputRef.current);
+    inputRef.current.focus();
   };
 
   // 删除
@@ -162,6 +169,7 @@ const App = () => {
               onChange={(e) => {
                 setCommentMsg(e.target.value);
               }}
+              ref={inputRef}
             />
             {/* 发布按钮 */}
             <div onClick={handleAddContent} className="reply-box-send">
@@ -215,6 +223,9 @@ const App = () => {
         </div>
       </div>
       <Test />
+      <TestProps>
+        <span>你好</span>
+      </TestProps>
     </div>
   );
 };
