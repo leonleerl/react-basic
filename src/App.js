@@ -7,6 +7,7 @@ import Test from "./test";
 import { v4 as uuidV4 } from "uuid";
 import dayjs from "dayjs";
 import TestProps from "./testProps";
+import TestEffect from "./testEffect.js";
 
 /**
  * 评论列表的渲染和操作
@@ -226,6 +227,7 @@ const App = () => {
       <TestProps>
         <span>你好</span>
       </TestProps>
+      <TestEffect />
     </div>
   );
 };
