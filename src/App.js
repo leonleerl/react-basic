@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.scss";
 import avatar from "./images/bozai.png";
 import _ from "lodash";
@@ -8,6 +8,7 @@ import { v4 as uuidV4 } from "uuid";
 import dayjs from "dayjs";
 import TestProps from "./testProps";
 import TestEffect from "./testEffect.js";
+import axios from "axios";
 
 /**
  * 评论列表的渲染和操作
@@ -83,9 +84,18 @@ const tabs = [
 
 const App = () => {
   // 评论列表
-  const [commentList, setCommentList] = useState(
-    _.orderBy(defaultList, "like", "desc")
-  );
+  // const [commentList, setCommentList] = useState(
+  //   _.orderBy(defaultList, "like", "desc")
+  // );
+  const [commentList, setCommentList] = useState([]);
+
+  useEffect(() => {
+    async function getList() {
+      const res = await axios.get("http://localhost:3004/list");
+      setCommentList(res.data);
+    }
+    getList();
+  }, []);
 
   // 发布
   const [commentMsg, setCommentMsg] = useState("");
