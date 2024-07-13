@@ -82,11 +82,7 @@ const tabs = [
   { type: "time", text: "最新" },
 ];
 
-const App = () => {
-  // 评论列表
-  // const [commentList, setCommentList] = useState(
-  //   _.orderBy(defaultList, "like", "desc")
-  // );
+function useGetList() {
   const [commentList, setCommentList] = useState([]);
 
   useEffect(() => {
@@ -96,7 +92,18 @@ const App = () => {
     }
     getList();
   }, []);
+  return {
+    commentList,
+    setCommentList,
+  };
+}
 
+const App = () => {
+  // 评论列表
+  // const [commentList, setCommentList] = useState(
+  //   _.orderBy(defaultList, "like", "desc")
+  // );
+  const { commentList, setCommentList } = useGetList();
   // 发布
   const [commentMsg, setCommentMsg] = useState("");
   const inputRef = useRef(null);
